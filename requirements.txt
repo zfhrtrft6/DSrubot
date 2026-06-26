@@ -1,3 +1,0 @@
-discord.py
-Pillow
-opencv-python-headless
