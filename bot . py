@@ -1,0 +1,53 @@
+import os
+import asyncio
+import discord
+from discord.ext import commands
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+intents = discord.Intents.all()
+
+bot = commands.Bot(
+    command_prefix="!",
+    intents=intents
+)
+
+
+@bot.event
+async def on_ready():
+    print("======================")
+    print("Бот запущен!")
+    print(f"Имя: {bot.user}")
+    print("======================")
+
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send("🏓 Pong!")
+
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(
+        f"Привет, {ctx.author.mention}!"
+    )
+
+
+async def main():
+
+    if not TOKEN:
+        print("ОШИБКА: DISCORD_TOKEN не найден!")
+        return
+
+    while True:
+        try:
+            await bot.start(TOKEN)
+
+        except Exception as e:
+            print("Ошибка подключения:")
+            print(e)
+            print("Повтор через 30 секунд...")
+            await asyncio.sleep(30)
+
+
+asyncio.run(main())
